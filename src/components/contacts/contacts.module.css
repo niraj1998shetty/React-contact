@@ -6,13 +6,15 @@
   color: #5f6368;
   font-size: 15px;
   font-weight: 500;
-  padding-bottom: 5px;
+  padding-bottom: 9px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
   position: fixed;
   width: 75%;
-  margin-top: -25px;
+  margin-top: -34px;
   margin-left: 13px;
+  padding-top: 5px;
+  background-color: white;
 }
 .main_content {
   margin: 5% 7% 0 17.5%;
