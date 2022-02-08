@@ -47,8 +47,8 @@ const CreateProfile = (props) => {
     setPhone("");
     navigate("/");
   };
-  const letter = images("a");
-  console.log(letter);
+  /* const letter = images("a");
+  console.log(letter); */
   const getImage = async (e) => {
     console.log(e);
     const file = e.target.files[0];

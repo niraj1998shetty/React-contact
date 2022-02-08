@@ -27,9 +27,10 @@ function App() {
     );
   };
   const searchHandler = (search) => {
-    setSearchTerm(search, () => {
-      console.log(searchTerm);
-    });
+    setSearchTerm(search);
+    console.log(search);
+  };
+  useEffect(() => {
     if (searchTerm !== "") {
       const newContactList = contacts.filter((contact) => {
         return Object.values(contact)
@@ -38,12 +39,14 @@ function App() {
           .includes(searchTerm.toLowerCase());
       });
       setSearchResults(newContactList);
+      console.log(searchTerm);
+      console.log(newContactList);
     } else {
       setSearchResults(contacts);
     }
-
-    //console.log("saerch",search);
-    /* if (search!==""){
+  }, [searchTerm]);
+  //console.log("saerch",search);
+  /* if (search!==""){
   const newContactList=contacts.filter((contact)=>{
    return Object.values(contact).join("").toLowerCase().includes(search.toLowerCase());
   })
@@ -52,8 +55,6 @@ function App() {
 else{
   setSearchResults(contacts)
 } */
-    console.log(search);
-  };
 
   const removeContactHandler = (id) => {
     const newContactList = contacts.filter((contact) => {
