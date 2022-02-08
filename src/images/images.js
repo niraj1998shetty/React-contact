@@ -1,5 +1,3 @@
-import React from "react";
-
 const images = ({ letter }) => {
   let alpha;
   switch (letter) {
