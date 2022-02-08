@@ -20,7 +20,7 @@ const Edit = (props) => {
     gender: gender,
     img: img,
   });
-
+  const [imageChanged, setImageChanged] = useState(false);
   console.log(state.name);
   const navigate = useNavigate();
 
@@ -45,7 +45,7 @@ const Edit = (props) => {
     const base16 = await toBase16(file);
     setBaseImage(base16);
     state.img = base16;
-    console.log(state.img);
+    setImageChanged(true);
   };
   const toBase16 = (file) => {
     return new Promise((resolve, reject) => {
@@ -70,7 +70,10 @@ const Edit = (props) => {
       <div className={style.input_content}>
         <form onSubmit={update} style={{ width: "100%" }}>
           <div className={style.imgContainer}>
-            <img src={state.img} className={style.imageContainer}></img>
+            <img
+              src={imageChanged ? baseImage : state.img}
+              className={style.imageContainer}
+            ></img>
             <div className={style.addIconContainer} onClick={selectFile}>
               <div className={style.addIcon}>
                 <BiImageAdd />
@@ -118,7 +121,7 @@ const Edit = (props) => {
           <div>
             <input
               className={style.input}
-              type="text"
+              type="phone"
               name="phone"
               placeholder="phone number"
               onChange={(e) => setState({ ...state, phone: e.target.value })}

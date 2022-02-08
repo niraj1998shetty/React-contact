@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import images from "../../images/images";
 import style from "./create.module.css";
 import { BiImageAdd } from "react-icons/bi";
 const CreateProfile = (props) => {
@@ -46,8 +47,10 @@ const CreateProfile = (props) => {
     setPhone("");
     navigate("/");
   };
-
+  const letter = images("a");
+  console.log(letter);
   const getImage = async (e) => {
+    console.log(e);
     const file = e.target.files[0];
     const base16 = await toBase16(file);
     setBaseImage(base16);
@@ -106,7 +109,7 @@ const CreateProfile = (props) => {
           <div>
             <input
               className={style.input}
-              type="text"
+              type="email"
               name="email"
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
@@ -126,7 +129,7 @@ const CreateProfile = (props) => {
           <div>
             <input
               className={style.input}
-              type="text"
+              type="phone"
               name="phone"
               placeholder="phone number"
               onChange={(e) => setPhone(e.target.value)}
