@@ -1,26 +1,42 @@
-import React, { useState } from "react";
-
+import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import style from "./create.module.css";
+import { BiImageAdd } from "react-icons/bi";
 const CreateProfile = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
+  const phoneNo = /^\d{10}$/;
+  const regName = /^([a-zA-Z ]){2,30}$/;
+  const regEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+  const [baseImage, setBaseImage] = useState("");
   const state = {
     name: name,
     email: email,
-    address:address,
-    phone:phone,
-    gender:gender
+    address: address,
+    phone: phone,
+    gender: gender,
+    img: baseImage,
   };
-
+  console.log(phoneNo.test(phone));
+  const navigate = useNavigate();
   const add = (e) => {
     e.preventDefault();
-    console.log(state);
-    if (name === "" || email === "") {
-      alert("all the fields are mandatory!");
+    if (!(phone.length === 10 && phoneNo.test(phone))) {
+      alert("please Enter valid Phone Number and must be equal to 10 digits");
       return;
     }
+    if (!regName.test(name)) {
+      alert("please Enter a valid Name");
+      return;
+    }
+    if (!regEmail.test(email)) {
+      alert("Please Enter valid Email");
+      return;
+    }
+    console.log(state);
     props.addContactHandler(state);
     console.log("bvc");
     setName("");
@@ -28,17 +44,58 @@ const CreateProfile = (props) => {
     setGender("");
     setAddress("");
     setPhone("");
-
+    navigate("/");
   };
 
+  const getImage = async (e) => {
+    const file = e.target.files[0];
+    const base16 = await toBase16(file);
+    setBaseImage(base16);
+    console.log(base16);
+  };
+  const toBase16 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+  const selectFile = () => {
+    document.getElementById("selectFile").click();
+  };
   return (
     <div>
-      <div>
-        <h2>Add Contact</h2>
-        <form onSubmit={add}>
-          <div>
-            <label>Name</label>
+      <div className={style.input_content}>
+        <form onSubmit={add} style={{ width: "100%" }}>
+          {/*   <div>
+            <input type="file" onChange={getImage} />
+          </div> */}
+
+          <div className={style.imgContainer}>
+            <img src={baseImage} className={style.imageContainer}></img>
+            <div className={style.addIconContainer} onClick={selectFile}>
+              <div className={style.addIcon}>
+                <BiImageAdd />
+              </div>
+            </div>
             <input
+              type="file"
+              onChange={getImage}
+              className={style.selectFile}
+              id="selectFile"
+            ></input>{" "}
+          </div>
+
+          <div>
+            <input
+              className={style.input}
               type="text"
               name="name"
               placeholder="Name"
@@ -47,8 +104,8 @@ const CreateProfile = (props) => {
             />
           </div>
           <div>
-            <label>Email</label>
             <input
+              className={style.input}
               type="text"
               name="email"
               placeholder="Email"
@@ -57,8 +114,8 @@ const CreateProfile = (props) => {
             />
           </div>
           <div>
-            <label>Address</label>
             <input
+              className={style.input}
               type="text"
               name="address"
               placeholder="address"
@@ -67,8 +124,8 @@ const CreateProfile = (props) => {
             />
           </div>
           <div>
-            <label>Phone Number</label>
             <input
+              className={style.input}
               type="text"
               name="phone"
               placeholder="phone number"
@@ -77,7 +134,6 @@ const CreateProfile = (props) => {
             />
           </div>
           <div>
-            <label>Gender</label>
             {/* <input
               type="select"
               name="gender"
@@ -85,12 +141,20 @@ const CreateProfile = (props) => {
               onChange={(e) => setGender(e.target.value)}
               value={gender}
             /> */}
-            <select onChange={(e) => setGender(e.target.value)} name="gender" id="gender">
+            <select
+              className={style.select}
+              onChange={(e) => setGender(e.target.value)}
+              name="gender"
+              id="gender"
+            >
+              <option value="hide">--Gender--</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
             </select>
           </div>
-          <button>Add</button>
+          <div className={style.button_content}>
+            <button className={style.button}>SAVE</button>
+          </div>
         </form>
       </div>
     </div>
