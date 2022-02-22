@@ -37,7 +37,6 @@ const Edit = (props) => {
     }
 
     props.updateContactHandler(state);
-    console.log("bvc");
     navigate(`/contact/${id}`, { state: state });
   };
   const getImage = async (e) => {
